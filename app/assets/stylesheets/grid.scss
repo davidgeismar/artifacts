@@ -1,0 +1,53 @@
+.main-content {
+  width: 100%;
+   height: 100%;
+   position: absolute;
+   top: 0;
+   left: 0;
+   opacity: 0.8;  /* for demo purpose  */
+}
+
+.grid {
+  display: grid
+}
+
+.portfolio-item {
+  font-family: 'Inconsolata', monospace;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &.small {
+    grid-row: span 1;
+    grid-column: span 1;
+  }
+  &.medium {
+    grid-row: span 2;
+    grid-column: span 2;
+  }
+  &.large {
+    grid-row: span 3;
+    grid-column: span 3;
+  }
+  &.extra-large  {
+    grid-row: span 5;
+    grid-column: span 5;
+  }
+  &.tall {
+    grid-row: span 3;
+    grid-column: span 2;
+  }
+  &.wide {
+    grid-row: span 2;
+    grid-column: span 3;
+  }
+}
+
+.portfolio {
+  display: grid;
+  height: 100%;
+  grid-template-rows: repeat(5, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 5px;
+}

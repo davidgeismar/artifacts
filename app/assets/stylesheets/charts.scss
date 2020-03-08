@@ -1,0 +1,44 @@
+.dashboard {
+  // display: grid;
+  height: 100%;
+  width: 100%;
+  grid-auto-rows: minmax(100px, auto);
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-gap: 10px;
+  margin: 10px;
+  .card {
+    padding: 20px;
+    background-color: white;
+    border: black;
+    border-radius: 5px;
+  }
+
+  .graph {
+    grid-column: 1/4;
+  }
+  #lotPlot {
+    grid-column: 1/4;
+    height: 500px;
+  }
+  .description {
+    grid-column: 4 / 6;
+    grid-row: 1 / 4
+  }
+}
+
+
+rect.high-estimate {
+  fill: red
+}
+text {
+  font-size: 1em;
+}
+
+circle:hover {
+       cursor: pointer
+     }
+
+rect.low-estimate {
+  fill: steelblue
+}
