@@ -1,6 +1,6 @@
 import { renderDashboard } from './artist/dashboard'
 import { renderLotDashboard } from './lot/dashboard'
-import { renderSearch } from './search/search'
+import SearchBar from './search/search'
 import { renderBreadcrumb } from './nav/nav'
 
 import UIElements from './UIElements'
@@ -20,5 +20,5 @@ export const route = (pathName) => {
     ui.searchBar.classList.add('hidden')
     return renderLotDashboard(lotId);
   }
-  renderSearch()
+  new SearchBar().render()
 }

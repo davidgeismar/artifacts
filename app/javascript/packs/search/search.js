@@ -12,117 +12,92 @@ const classList = {
   '6': ['medium', 'large', 'medium', 'small', 'tall', 'wide'],
 }
 
-const searchUI = new SearchUI()
 
 
 
-// class SearchBar {
-//   constructor(){
-//     this.searchUI = new SearchUI();
-//     this.searchUI.searchInput.onfocus = (e) => {
-//       if (e.target.value) {
-//         filterByArtist(e.target.value)
-//       }
-//     }
-//     let timeout = null;
-//     this.searchUI.searchInput.onkeyup = () => {
-//       clearTimeout(timeout);
-//        timeout = setTimeout(() => {
-//          filterByArtist(this.searchUI.searchInput.value)
-//        }, 300);
-//      }
-//   }
-//
-//   setLocalStorage(){
-//     window.localStorage.removeItem('lotName');
-//     window.localStorage.removeItem('lotId');
-//     window.localStorage.removeItem('artistName');
-//     window.localStorage.removeItem('artistId');
-//   }
-//
-//   render() {
-//     window.history.pushState('', '', '/');
-//     this.setLocalStorage()
-//     renderBreadcrumb()
-//     this.searchUI.lotDashboard.classList.remove('grid');
-//     this.searchUI.lotDashboard.classList.add('hide');
-//     this.searchUI.artistDashboard.classList.remove('grid');
-//     this.searchUI.artistDashboard.classList.add('hide');
-//     this.searchUI.searchBar.classList.remove('hide');
-//     this.searchUI.searchBar.classList.remove('hidden');
-//   }
-// }
 
-searchUI.searchInput.onfocus = (e) => {
-  if (e.target.value) {
-    filterByArtist(e.target.value)
+class SearchBar {
+  constructor(){
+    this.ui = new SearchUI();
+    this.searchResults = new SearchResults()
+    this.ui.searchInput.onfocus = (e) => {
+      if (e.target.value) {
+        this.searchResults.filterByArtist(e.target.value)
+      }
+    }
+    let timeout = null;
+    this.ui.searchInput.onkeyup = () => {
+      clearTimeout(timeout);
+       timeout = setTimeout(() => {
+         this.searchResults.filterByArtist(this.ui.searchInput.value)
+       }, 300);
+     }
+  }
+
+  setLocalStorage(){
+    window.localStorage.removeItem('lotName');
+    window.localStorage.removeItem('lotId');
+    window.localStorage.removeItem('artistName');
+    window.localStorage.removeItem('artistId');
+  }
+
+  render() {
+    window.history.pushState('', '', '/');
+    this.setLocalStorage()
+    renderBreadcrumb()
+    this.ui.lotDashboard.classList.remove('grid');
+    this.ui.lotDashboard.classList.add('hide');
+    this.ui.artistDashboard.classList.remove('grid');
+    this.ui.artistDashboard.classList.add('hide');
+    this.ui.searchBar.classList.remove('hide');
+    this.ui.searchBar.classList.remove('hidden');
   }
 }
 
-let timeout = null;
-searchUI.searchInput.onkeyup = () => {
-  clearTimeout(timeout);
-   timeout = setTimeout(() => {
-     filterByArtist(searchUI.searchInput.value)
-   }, 300);
- }
+class SearchResults{
+  constructor(){
+    this.ui = new SearchUI();
+  }
 
-const removeChildNodes = () => {
-  searchUI.searchResults.querySelectorAll(':scope > div').forEach(node => searchUI.searchResults.removeChild(node))
-}
+  removeChildNodes(){
+    this.ui.searchResults.querySelectorAll(':scope > div').forEach(node => this.ui.searchResults.removeChild(node))
+  }
 
-export const renderSearch = () => {
-  console.log('renderSearch')
-  window.history.pushState('', '', '/');
-  window.localStorage.removeItem('lotName');
-  window.localStorage.removeItem('lotId');
-  window.localStorage.removeItem('artistName');
-  window.localStorage.removeItem('artistId');
-  renderBreadcrumb()
-  searchUI.lotDashboard.classList.remove('grid');
-  searchUI.lotDashboard.classList.add('hide');
-  searchUI.artistDashboard.classList.remove('grid');
-  searchUI.artistDashboard.classList.add('hide');
-  searchUI.searchBar.classList.remove('hide');
-  searchUI.searchBar.classList.remove('hidden');
-}
+  handleClicked(elem, artist){
+    this.removeChildNodes(this.ui.searchResults);
+    this.ui.searchInput.value = elem.text;
+    this.ui.searchBar.classList.add('hide')
+    this.ui.searchInput.value = ''
+    // d3.selectAll("svg > *").remove();
+    renderDashboard(artist.id)
+  }
 
+  createArtistNode(artist, index, resultsSize){
+    let div = document.createElement("div")
+    div.setAttribute("data-id", artist.id);
+    div.setAttribute("class", `portfolio-item ${classList[resultsSize][index]}`)
+    div.setAttribute("style", `background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("${backgroundImages[index]}");background-repeat: no-repeat;background-size: cover;background-position: center center;`);
+    div.textContent = artist.full_name
+    div.onclick = () => this.handleClicked(div, artist);
+    return div
+  }
 
-export const filterByArtist = (filter) => {
-  removeChildNodes()
-
-  fetch(`http://localhost:3000/artists?filter=${filter}`)
-    .then((response) => {
-      response.json()
-        .then(artists => displayArtists(artists))
+  displayArtists(artists){
+    const artistSubset = artists.slice(0, 6)
+    console.log(artistSubset);
+    artistSubset.forEach((artist, index) => {
+      const artistNode = this.createArtistNode(artist, index, artistSubset.length)
+      this.ui.searchResults.append(artistNode)
     })
+  }
+
+  filterByArtist(filter){
+    this.removeChildNodes();
+    fetch(`http://localhost:3000/artists?filter=${filter}`)
+      .then((response) => {
+        response.json().then(artists => this.displayArtists(artists));
+      })
+    }
 }
 
-
-const handleClicked = (elem, artist) => {
-  removeChildNodes(searchUI.searchResults);
-  searchUI.searchInput.value = elem.text;
-  searchUI.searchBar.classList.add('hide')
-  searchUI.searchInput.value = ''
-  // d3.selectAll("svg > *").remove();
-  renderDashboard(artist.id)
-}
-
-const createArtistNode = (artist, index, resultsSize) => {
-  let div = document.createElement("div")
-  div.setAttribute("data-id", artist.id);
-  div.setAttribute("class", `portfolio-item ${classList[resultsSize][index]}`)
-  div.setAttribute("style", `background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("${backgroundImages[index]}");background-repeat: no-repeat;background-size: cover;background-position: center center;`);
-  div.textContent = artist.full_name
-  div.onclick = () => handleClicked(div, artist);
-  return div
-}
-
-const displayArtists = (artists) => {
-  const artistSubset = artists.slice(0, 6)
-  console.log(artistSubset);
-  artistSubset.forEach((artist, index) => {
-    const artistNode = createArtistNode(artist, index, artistSubset.length)
-    searchUI.searchResults.append(artistNode)
-  })
-}
+export default SearchBar
