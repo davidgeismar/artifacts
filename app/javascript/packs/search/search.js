@@ -1,5 +1,7 @@
 import SearchUI from './selectors'
 import ArtistDashboard from '../artist/dashboard'
+import ArtistDashboardUI from '../artist/selectors'
+import LotDashboardSelectors from '../lot/selectors'
 import { renderBreadcrumb } from '../nav/nav'
 const backgroundImages = ['/dejeuner-sur-herbe.jpg', '/guernica.jpeg', '/nuit-etoile.jpg', '/le-cri.png', '/naissance-de-venus.jpg', '/les-menines.jpg']
 
@@ -15,6 +17,8 @@ const classList = {
 class SearchBar {
   constructor(){
     this.ui = new SearchUI();
+    this.artistDashboardUI = new ArtistDashboardUI()
+    this.lotDashboardUI = new LotDashboardSelectors()
     this.searchResults = new SearchResults()
     this.ui.searchInput.onfocus = (e) => {
       if (e.target.value) {
@@ -41,10 +45,10 @@ class SearchBar {
     window.history.pushState('', '', '/');
     this.setLocalStorage()
     renderBreadcrumb()
-    this.ui.lotDashboard.classList.remove('grid');
-    this.ui.lotDashboard.classList.add('hide');
-    this.ui.artistDashboard.classList.remove('grid');
-    this.ui.artistDashboard.classList.add('hide');
+    this.lotDashboardUI.dashboard.classList.remove('grid');
+    this.lotDashboardUI.dashboard.classList.add('hide');
+    this.artistDashboardUI.dashboard.classList.remove('grid');
+    this.artistDashboardUI.dashboard.classList.add('hide');
     this.ui.searchBar.classList.remove('hide');
     this.ui.searchBar.classList.remove('hidden');
   }
