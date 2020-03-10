@@ -1,0 +1,199 @@
+$circle-size: 25px;
+$no-color: transparent;
+$number: 960; //得分数
+$number-size: 5vmax;
+$text-size: 2vmax;
+$size: 200px;
+//指针默认为 90deg
+//指针转动最大 210deg
+$base-deg: 1000/210deg;
+$turn: $number/$base-deg;
+//不转换 hsl() 颜色
+@function hsl($h, $s, $l) {
+  @return unquote('hsl(#{$h}, #{$s}, #{$l})');
+}
+
+@function prepend($list, $value, $separator:auto) {
+  $temp: join((), (), comma);
+  $value: append($temp, $value);
+  @return join($value, $list, $separator);
+}
+
+//$step: 每个格子的角度
+@function circle($step: 5, $smooth: false) {
+  $totalStops: 360/$step; //72
+  $stops: ();
+  @if $smooth {
+    @for $i from 0 through $totalStops {
+      $stops: append($stops, hsl($i*$step, 100%, 50%), comma);
+    }
+  }
+  @else {
+    @for $i from 0 through $totalStops {
+      $n: ($i+1)*$step;
+      @if $n <=90 {
+        $stops: append($stops, hsl(4+$i*1.5, 100%, 60%) 0 $n +deg, comma);
+      }
+      @if $n >=90 and $n <=225 {
+        $stops: append($stops, hsl(81+$i*1.5, 82%-$i*0.5, 50%) 0 $n +deg, comma);
+      }
+    }
+    /* $stops: prepend($stops, (transparent 0 90deg)); */
+    $stops: append($stops, transparent 0 360deg, comma);
+  }
+  @return $stops;
+}
+
+.background {
+  position: absolute;
+  z-index: 1;
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  transform: rotate(225deg + 45/2);
+  background: conic-gradient(circle(5));
+}
+.circle-counter {
+  z-index: 2;
+  width: $size;
+  height: $size;
+  text-align: center;
+  // transform: translate(-50%, calc(-50% + 80px));
+  & > .text {
+      position: absolute;
+    z-index: 100;
+    left: 50%;
+    top: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    & > .beta {
+      color: #ccc;
+      text-transform: uppercase;
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+    & > .number {
+      font-size: $number-size;
+      color: #08C595;
+      font-family: arial, sans-serif;
+    }
+    & > h3 {
+      color: #00c68d;
+      font-size: $text-size;
+    }
+    & > .time {
+      margin-top: 8px;
+      color: #aaa;
+      font-size: 14px;
+    }
+  }
+  // &:before {
+  //   content: "";
+  //   position: absolute;
+  //   width: $size;
+  //   height: $size;
+  //   border-radius: 50%;
+  //   transform: rotate(225deg + 45/2);
+  //   background: conic-gradient(circle(5));
+  //   // transform: translate(-50%, calc(-50% + 80px));
+  // }
+  // &:after {
+  //   content: "";
+  //   position: absolute;
+  //   left: $circle-size;
+  //   right: $circle-size;
+  //   top: $circle-size;
+  //   bottom: $circle-size;
+  //   margin: auto;
+  //   border-radius: 50%;
+  //   background-color: #fff;
+  // }
+  & > .circle-line {
+    position: absolute;
+    z-index: 10;
+    left: $circle-size + 25;
+    right: $circle-size + 25;
+    top: $circle-size + 25;
+    bottom: $circle-size + 25;
+    margin: auto;
+    border-radius: 50%;
+    border: 4px solid #6addbc;
+    /* background: conic-gradient(#6addbc 0 0, #6addbc 0 220deg, rgba(0,0,0,0) 0 100%); */
+    /* transform: rotate(252deg); */
+    -webkit-clip-path: polygon(100% 0, 100% 67%, 50% 40%, 0 67%, 0 0);
+    // &:before {
+    //   content: "";
+    //   position: absolute;
+    //   left: 4px;
+    //   right: 4px;
+    //   top: 4px;
+    //   bottom: 4px;
+    //   margin: auto;
+    //   border-radius: 50%;
+    //   background-color: #fff;
+    // }
+    // &:after {
+    //   content: '';
+    //   position: absolute;
+    //   left: 45px;
+    //   right: 45px;
+    //   top: 45px;
+    //   bottom: 45px;
+    //   margin: auto;
+    //   border-radius: 50%;
+    //   border: 1px dashed #999;
+    //   /* -webkit-clip-path: polygon(0 0, 100% 0, 100% 70%, 0 70%); */
+    //   /* transform: rotate(-251deg); */
+    // }
+  }
+}
+
+.tips {
+  z-index: 200;
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  width: 10px;
+  height: 50%;
+  transform-origin: 50% 100%;
+  transform: rotate(-105deg);
+  &:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    height: 15px;
+    width: 15px;
+    background-color: #00c991;
+    border-radius: 50% 50% 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  &:before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    position: absolute;
+    z-index: 9;
+    left: 0px;
+    top: -5px;
+    border: 2px solid #FFF;
+    border-radius: 50%;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate3D(0, 0, 1, -105deg);
+  }
+  to {
+    transform: rotate3D(0, 0, 1, $turn - 105deg);
+  }
+}
+
+.tips {
+  animation: rotate 2s both ease-in;
+}
+
+.animated .tips {
+  animation: none;
+}

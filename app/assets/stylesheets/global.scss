@@ -6,15 +6,17 @@
   box-sizing: border-box;
 }
 
-// html, body {
-//   width: 100%;
-//   height: 100%;
-// }
 
 body {
-  background: #252525;
+  background: #15103A;
+  font-family: 'Inconsolata', monospace;
+  color: black;
 }
 
 .hide {
+  display: none;
+}
+
+.hidden {
   display: none;
 }
