@@ -13,44 +13,52 @@ import {
   artistDescriptionTemplate,
  } from './templates'
 
-const sharedUI = new SharedUI()
-const artistSelectors = new ArtistSelectors()
-const lotSelectors = new LotSelectors()
 
-const toggleLotArtist = () => {
-  if (!lotSelectors.dashboard.classList.contains('hide')){
-    lotSelectors.dashboard.classList.add('hide');
+class Dashboard {
+  constructor(artistId){
+    this.artistId = artistId;
+    this.sharedUI = new SharedUI();
+    this.artistUI = new ArtistSelectors()
+    this.lotUI = new LotSelectors()
   }
-  if (lotSelectors.dashboard.classList.contains('grid')){
-    lotSelectors.dashboard.classList.remove('grid');
+  toggleLotArtist(){
+    if (!this.lotUI.dashboard.classList.contains('hide')){
+      this.lotUI.dashboard.classList.add('hide');
+    }
+    if (this.lotUI.dashboard.classList.contains('grid')){
+      this.lotUI.dashboard.classList.remove('grid');
+    }
+    if (this.artistUI.dashboard.classList.contains('hide')){
+      this.artistUI.dashboard.classList.remove('hide');
+    }
+    if (!this.artistUI.dashboard.classList.contains('grid')){
+      this.artistUI.dashboard.classList.add('grid');
+    }
   }
-  if (artistSelectors.dashboard.classList.contains('hide')){
-    artistSelectors.dashboard.classList.remove('hide');
-  }
-  if (!artistSelectors.dashboard.classList.contains('grid')){
-    artistSelectors.dashboard.classList.add('grid');
+  render(){
+    window.history.pushState("", "", `/artists/${this.artistId}`);
+    if (this.artistUI.dashboard.classList.contains('hide')){
+      d3.json(`http://localhost:3000/data/artist/${this.artistId}`)
+        .then((data) => {
+        const { salesNumber, totalSalesAmount, artistName } = data;
+        window.localStorage.setItem('artistName', artistName);
+        window.localStorage.setItem('artistId', this.artistId);
+        window.localStorage.removeItem('lotName');
+        window.localStorage.removeItem('lotId');
+        renderBreadcrumb()
+        this.toggleLotArtist()
+        this.sharedUI.loader.dispatchEvent(new Event('hide-loader'));
+        this.artistUI.salesCountEl.innerHTML = salesCountTemplate(salesNumber);
+        this.artistUI.liquidityRateEl.innerHTML = liquidityRateTemplate(15);
+        this.artistUI.performanceRateEl.innerHTML = performanceRateTemplate(35);
+        this.artistUI.artistScoreEl.innerHTML = artistScoreTemplate(5);
+        this.artistUI.totalSalesEl.innerHTML = totalSaleAmountTemplate(totalSalesAmount);
+        this.artistUI.artistDescription.innerHTML = artistDescriptionTemplate(artistName);
+        this.artistUI.scatterplot.innerHTML = "";
+        renderScatterPlot(data.grouped_by_sale_date, data.max);
+      })
+    }
   }
 }
-export const renderDashboard = (artistId) => {
-  window.history.pushState("", "", `/artists/${artistId}`);
-  if (artistSelectors.dashboard.classList.contains('hide')){
-    d3.json(`http://localhost:3000/data/artist/${artistId}`).then((data) => {
-    const { salesNumber, totalSalesAmount, artistName } = data;
-    window.localStorage.setItem('artistName', artistName);
-    window.localStorage.setItem('artistId', artistId);
-    window.localStorage.removeItem('lotName');
-    window.localStorage.removeItem('lotId');
-    renderBreadcrumb()
-    toggleLotArtist()
-    sharedUI.loader.dispatchEvent(new Event('hide-loader'));
-    artistSelectors.salesCountEl.innerHTML = salesCountTemplate(salesNumber);
-    artistSelectors.liquidityRateEl.innerHTML = liquidityRateTemplate(15);
-    artistSelectors.performanceRateEl.innerHTML = performanceRateTemplate(35);
-    artistSelectors.artistScoreEl.innerHTML = artistScoreTemplate(5);
-    artistSelectors.totalSalesEl.innerHTML = totalSaleAmountTemplate(totalSalesAmount);
-    artistSelectors.artistDescription.innerHTML = artistDescriptionTemplate(artistName);
-    artistSelectors.scatterplot.innerHTML = "";
-    renderScatterPlot(data.grouped_by_sale_date, data.max);
-  })
-  }
-}
+
+export default Dashboard

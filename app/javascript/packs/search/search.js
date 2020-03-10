@@ -1,5 +1,5 @@
 import SearchUI from './selectors'
-import { renderDashboard } from '../artist/dashboard'
+import ArtistDashboard from '../artist/dashboard'
 import { renderBreadcrumb } from '../nav/nav'
 const backgroundImages = ['/dejeuner-sur-herbe.jpg', '/guernica.jpeg', '/nuit-etoile.jpg', '/le-cri.png', '/naissance-de-venus.jpg', '/les-menines.jpg']
 
@@ -11,10 +11,6 @@ const classList = {
   '5': ['large', 'medium', 'large', 'medium', 'tall'],
   '6': ['medium', 'large', 'medium', 'small', 'tall', 'wide'],
 }
-
-
-
-
 
 class SearchBar {
   constructor(){
@@ -68,8 +64,7 @@ class SearchResults{
     this.ui.searchInput.value = elem.text;
     this.ui.searchBar.classList.add('hide')
     this.ui.searchInput.value = ''
-    // d3.selectAll("svg > *").remove();
-    renderDashboard(artist.id)
+    new ArtistDashboard(artist.id).render()
   }
 
   createArtistNode(artist, index, resultsSize){

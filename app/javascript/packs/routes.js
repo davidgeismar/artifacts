@@ -1,4 +1,4 @@
-import { renderDashboard } from './artist/dashboard'
+import ArtistDashboard from './artist/dashboard'
 import { renderLotDashboard } from './lot/dashboard'
 import SearchBar from './search/search'
 import { renderBreadcrumb } from './nav/nav'
@@ -13,7 +13,7 @@ export const route = (pathName) => {
     console.log('artists url')
     const artistId = pathName.substring(pathName.lastIndexOf('/') + 1)
     ui.searchBar.classList.add('hidden')
-    return renderDashboard(artistId);
+    return new ArtistDashboard(artistId).render();
   }
   if (RegExp(/\/lot\//).test(pathName)){
     const lotId = pathName.substring(pathName.lastIndexOf('/') + 1)

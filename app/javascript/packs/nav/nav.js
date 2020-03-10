@@ -1,5 +1,5 @@
 import Selectors from './selectors'
-import { renderDashboard } from '../artist/dashboard'
+import ArtistDashboard from '../artist/dashboard'
 import SearchBar from '../search/search'
 const ui = new Selectors()
 
@@ -9,6 +9,6 @@ export const renderBreadcrumb = () => {
   const artistId = localStorage.getItem("artistId");
   const lotName = localStorage.getItem("lotName");
   ui.breadcrumb.innerHTML = `<span id='back-homepage'> Search </span> > ${renderArtistSpan(artistName, artistId)} ${ lotName ? `> ${lotName}` : ''  }`;
-  document.getElementById('artist-name').onclick =  () => renderDashboard(artistId);
+  document.getElementById('artist-name').onclick =  () => new ArtistDashboard(artistId).render();
   document.getElementById('back-homepage').onclick = () => new SearchBar().render();
 }
