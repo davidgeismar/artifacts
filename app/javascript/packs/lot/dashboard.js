@@ -1,15 +1,25 @@
-import { renderLotPlot } from './charts.js'
-import { loader, artistDashboard, lotDetails, lotDashboard } from '../UIElements'
-import { salesCountTemplate, liquidityRateTemplate, performanceRateTemplate, objectScoreTemplate, totalSaleAmountTemplate, lotDescriptionTemplate } from './templates'
+import { renderLotPlot } from './charts.js';
+import {
+  salesCountTemplate,
+  liquidityRateTemplate,
+  performanceRateTemplate,
+  objectScoreTemplate,
+  totalSaleAmountTemplate,
+  lotDescriptionTemplate
+} from './templates'
+import ArtistDashboardSelectors from '../artist/selectors'
 import LotDashboardSelectors from './selectors'
 import { renderBreadcrumb } from '../nav/nav'
 
 class Dashboard {
 
   constructor(){
-    this.ui = new LotDashboardSelectors()
+    this.ui = new LotDashboardSelectors();
+    this.artistDashboardUI = new ArtistDashboardSelectors();
   }
   toggleArtistLot(){
+    const artistDashboard = this.artistDashboardUI.dashboard
+    const lotDashboard = this.ui.dashboard
     if (!artistDashboard.classList.contains('hide')) {
       artistDashboard.classList.add('hide')
     }
@@ -33,7 +43,7 @@ class Dashboard {
   renderLotInfos(data){
     console.log(data)
     this.toggleArtistLot()
-    lotDetails.innerHTML = lotDescriptionTemplate(data.lot);
+    this.ui.description.innerHTML = lotDescriptionTemplate(data.lot);
     this.ui.salesCountEl.innerHTML = salesCountTemplate(data.sales_count);
     this.ui.liquidityRateEl.innerHTML = liquidityRateTemplate(15);
     this.ui.performanceRateEl.innerHTML = performanceRateTemplate(data.performance);

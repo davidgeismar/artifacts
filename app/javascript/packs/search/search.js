@@ -17,9 +17,13 @@ const classList = {
 class SearchBar {
   constructor(){
     this.ui = new SearchUI();
-    this.artistDashboardUI = new ArtistDashboardUI()
-    this.lotDashboardUI = new LotDashboardSelectors()
-    this.searchResults = new SearchResults()
+    this.artistDashboardUI = new ArtistDashboardUI();
+    this.lotDashboardUI = new LotDashboardSelectors();
+    this.searchResults = new SearchResults();
+    this.init();
+  }
+
+  init(){
     this.ui.searchInput.onfocus = (e) => {
       if (e.target.value) {
         this.searchResults.filterByArtist(e.target.value)
@@ -32,7 +36,7 @@ class SearchBar {
          this.searchResults.filterByArtist(this.ui.searchInput.value)
        }, 300);
      }
-  }
+   }
 
   setLocalStorage(){
     window.localStorage.removeItem('lotName');

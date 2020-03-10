@@ -1,6 +1,7 @@
 class Selectors {
   constructor() {
     this.dashboard = document.getElementById('lot-dashboard');
+    this.description = document.getElementById('lot-details');
     this.scatterplot = document.getElementById('lotPlot');
     this.salesCountEl = document.getElementById('lot-sales-count');
     this.liquidityRateEl = document.getElementById('lot-liquidity-rate');
