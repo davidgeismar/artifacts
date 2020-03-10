@@ -40,17 +40,21 @@ class Dashboard {
     lotDashboard.classList.add('hide');
   }
 
-  renderLotInfos(data){
-    console.log(data)
-    this.toggleArtistLot()
-    this.ui.description.innerHTML = lotDescriptionTemplate(data.lot);
-    this.ui.salesCountEl.innerHTML = salesCountTemplate(data.sales_count);
-    this.ui.liquidityRateEl.innerHTML = liquidityRateTemplate(15);
-    this.ui.performanceRateEl.innerHTML = performanceRateTemplate(data.performance);
-    this.ui.objectScoreEl.innerHTML = objectScoreTemplate(5);
-    this.ui.totalSalesEl.innerHTML = totalSaleAmountTemplate(data.total);
-
+  updateDashboard(data){
+    const { description, salesCountEl, liquidityRateEl, performanceRateEl, objectScoreEl, totalSalesEl } = this.ui
+    description.innerHTML = lotDescriptionTemplate(data.lot);
+    salesCountEl.innerHTML = salesCountTemplate(data.sales_count);
+    liquidityRateEl.innerHTML = liquidityRateTemplate(15);
+    performanceRateEl.innerHTML = performanceRateTemplate(data.performance);
+    objectScoreEl.innerHTML = objectScoreTemplate(5);
+    totalSalesEl.innerHTML = totalSaleAmountTemplate(data.total);
   }
+
+  renderLotInfos(data){
+    this.toggleArtistLot();
+    this.updateDashboard(data);
+  }
+  
   render(lotId){
     window.history.pushState("", "", `/lot/${lotId}`);
     d3.json(`http://localhost:3000/lots/${lotId}`).then((data) => {
