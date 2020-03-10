@@ -4,7 +4,6 @@ import { loader, artistDashboard } from '../UIElements'
 export const renderLotPlot = (data) => {
   const yMax = Math.max(data.map(lot => Math.max(lot.primaryPrice, lot.high_estimate, lot.low_estimate)));
   const saleDates = data.map(lot => lot.saleDate);
-  debugger
   const margin = {top: 20, right: 20, bottom: 20, left: 60}
 
   var svg = d3.select("#lotPlot")

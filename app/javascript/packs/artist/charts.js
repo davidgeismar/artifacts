@@ -1,4 +1,4 @@
-import { renderLotDashboard } from '../lot/dashboard'
+import LotDashboard from '../lot/dashboard'
 
 export const renderScatterPlot = (data, max) => {
   let saleDates = Object.keys(data)
@@ -54,13 +54,14 @@ export const renderScatterPlot = (data, max) => {
     .attr("transform", saleDate => `translate(${xScale(saleDate)},0)`);
 
   const band = xScale.bandwidth()
+  const lotDashboard = new LotDashboard()
+
   sales._groups[0].forEach(sale => {
   let lots = data[sale.__data__]
   const lotNames = lots.map(lot => lot.lotName)
   let x_sale = d3.scaleBand()
             .domain(lotNames).range([0, band])
             .padding(0.05);
-
   d3.select(sale).selectAll(".point.low-estimate")
       .data(lots)
       .enter()
@@ -70,7 +71,7 @@ export const renderScatterPlot = (data, max) => {
       .attr("cy", lot => yScale(lot.low_estimate))
       .attr('data-id', lot => lot.id)
       .attr("r", 3)
-      .on("click", (lot) => renderLotDashboard(lot.id))
+      .on("click", (lot) => lotDashboard.render(lot.id))
       .style("fill", "blue")
 
   d3.select(sale).selectAll(".point.primaryPrice")
@@ -82,7 +83,7 @@ export const renderScatterPlot = (data, max) => {
       .attr("cy", lot => yScale(lot.primaryPrice))
       .attr('data-id', lot => lot.id)
       .attr("r", 3)
-      .on("click", (lot) => renderLotDashboard(lot.id))
+      .on("click", (lot) => lotDashboard.render(lot.id))
       .style("fill", "orange")
 
   d3.select(sale).selectAll(".point.high-estimate")
@@ -94,7 +95,7 @@ export const renderScatterPlot = (data, max) => {
       .attr("cx", lot => x_sale(lot.lotName))
       .attr("cy", lot => yScale(lot.high_estimate))
       .attr("r", 3)
-      .on("click", (lot) => renderLotDashboard(lot.id))
+      .on("click", (lot) => lotDashboard.render(lot.id))
       .style("fill", "red")
 
     })
