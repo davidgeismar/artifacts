@@ -83,7 +83,13 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
   database: artifacts_production
-  username: artifacts
-  password: <%= ENV['ARTIFACTS_DATABASE_PASSWORD'] %>
+  encoding: unicode
+  username: <%= ENV["DATABASE_USERNAME"] %>
+  host: <%= ENV["DB_URL"] %>
+  password: <%= ENV["DATABASE_PASSWORD"] %>
+  database: artifacts_scrapper_production
+  port: 5432
+  pool: 20
