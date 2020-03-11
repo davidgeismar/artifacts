@@ -6,10 +6,11 @@ import {
   objectScoreTemplate,
   totalSaleAmountTemplate,
   lotDescriptionTemplate
-} from './templates'
-import ArtistDashboardSelectors from '../artist/selectors'
-import LotDashboardSelectors from './selectors'
-import { renderBreadcrumb } from '../nav/nav'
+} from './templates';
+import ArtistDashboardSelectors from '../artist/selectors';
+import LotDashboardSelectors from './selectors';
+import { renderBreadcrumb } from '../nav/nav';
+import * as d3 from 'd3';
 
 class Dashboard {
 
@@ -23,7 +24,6 @@ class Dashboard {
     if (!artistDashboard.classList.contains('hide')) {
       artistDashboard.classList.add('hide')
     }
-
     if (artistDashboard.classList.contains("grid")){
       artistDashboard.classList.remove('grid')
     }
@@ -54,7 +54,7 @@ class Dashboard {
     this.toggleArtistLot();
     this.updateDashboard(data);
   }
-  
+
   render(lotId){
     window.history.pushState("", "", `/lot/${lotId}`);
     d3.json(`http://localhost:3000/lots/${lotId}`).then((data) => {

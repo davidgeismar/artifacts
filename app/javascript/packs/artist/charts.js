@@ -1,11 +1,11 @@
-import LotDashboard from '../lot/dashboard'
-
+import LotDashboard from '../lot/dashboard';
+import * as d3 from 'd3';
 export const renderScatterPlot = (data, max) => {
-  let saleDates = Object.keys(data)
+  let saleDates = Object.keys(data);
 
-  const margin = {top: 20, right: 20, bottom: 20, left: 60}
-  const width = window.innerWidth*60/100 - 40
-  const height = window.innerHeight*2/3 - 40
+  const margin = {top: 20, right: 20, bottom: 20, left: 60};
+  const width = window.innerWidth*60/100 - 40;
+  const height = window.innerHeight*2/3 - 40;
   var svg = d3.select("#scatterPlot")
               .append('svg')
               .attr("preserveAspectRatio", "xMinYMin meet")
@@ -13,10 +13,10 @@ export const renderScatterPlot = (data, max) => {
               .attr('height', height)
               .attr("viewBox", `0 0 ${width} ${height}`)
               .append("g")
-              .attr("transform", `translate(${margin.left},${margin.top})`)
+              .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  const innerWidth = width - margin.left -margin.right
-  const innerHeight = height - margin.top - margin.bottom
+  const innerWidth = width - margin.left -margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
 
 
   let xScale = d3.scaleBand()
@@ -35,16 +35,16 @@ export const renderScatterPlot = (data, max) => {
   var gX = svg.append("g")
               .attr("class", "x axis")
               .call(xAxis)
-              .attr("transform", `translate(0, ${innerHeight})`)
+              .attr("transform", `translate(0, ${innerHeight})`);
 
   var gY = svg.append("g")
             .attr("class", "y axis")
-            .call(yAxis)
+            .call(yAxis);
 
   const zoomed = () => {
     console.log('zooming')
     svg.attr("transform", d3.event.transform)
-  }
+  };
 
   svg.call(d3.zoom().on("zoom", zoomed));
   var sales = svg.selectAll(".per_sale")
@@ -53,8 +53,8 @@ export const renderScatterPlot = (data, max) => {
     .attr("id", saleDate => (`sale-${saleDate}`))
     .attr("transform", saleDate => `translate(${xScale(saleDate)},0)`);
 
-  const band = xScale.bandwidth()
-  const lotDashboard = new LotDashboard()
+  const band = xScale.bandwidth();
+  const lotDashboard = new LotDashboard();
 
   sales._groups[0].forEach(sale => {
   let lots = data[sale.__data__]

@@ -1,9 +1,9 @@
-import ArtistSelectors from './selectors'
-import LotSelectors from '../lot/selectors'
-import SharedUI from '../shared/ui'
-import { renderScatterPlot } from './charts'
-import { removeLotDashboard } from '../lot/dashboard'
-import { renderBreadcrumb } from '../nav/nav'
+import ArtistSelectors from './selectors';
+import LotSelectors from '../lot/selectors';
+import SharedUI from '../shared/ui';
+import { renderScatterPlot } from './charts';
+import { removeLotDashboard } from '../lot/dashboard';
+import { renderBreadcrumb } from '../nav/nav';
 import {
   salesCountTemplate,
   liquidityRateTemplate,
@@ -11,7 +11,8 @@ import {
   artistScoreTemplate,
   totalSaleAmountTemplate,
   artistDescriptionTemplate,
- } from './templates'
+} from './templates';
+import * as d3 from 'd3';
 
 
 class Dashboard {
