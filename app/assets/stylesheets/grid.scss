@@ -12,11 +12,15 @@
 }
 
 .portfolio-item {
+  filter: contrast(70%);
   cursor: pointer;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  &:hover {
+    filter: contrast(100%);
+  }
   &.small {
     grid-row: span 1;
     grid-column: span 1;
