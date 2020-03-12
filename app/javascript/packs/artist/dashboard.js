@@ -4,6 +4,7 @@ import SharedUI from '../shared/ui';
 import { renderScatterPlot } from './charts';
 import { removeLotDashboard } from '../lot/dashboard';
 import { renderBreadcrumb } from '../nav/nav';
+import { baseDataApiURI } from '../env'
 import {
   salesCountTemplate,
   liquidityRateTemplate,
@@ -39,7 +40,8 @@ class Dashboard {
   render(){
     window.history.pushState("", "", `/artists/${this.artistId}`);
     if (this.artistUI.dashboard.classList.contains('hide')){
-      d3.json(`http://localhost:3000/data/artist/${this.artistId}`)
+
+      d3.json(`${baseDataApiURI}/data/artist/${this.artistId}`)
         .then((data) => {
         const { salesNumber, totalSalesAmount, artistName } = data;
         window.localStorage.setItem('artistName', artistName);

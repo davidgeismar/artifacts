@@ -90,6 +90,6 @@ production:
   username: <%= ENV["DATABASE_USERNAME"] %>
   host: <%= ENV["DB_URL"] %>
   password: <%= ENV["DATABASE_PASSWORD"] %>
-  database: artifacts_scrapper_production
+  database: <%= ENV["DATABASE_NAME"] %>
   port: 5432
   pool: 20

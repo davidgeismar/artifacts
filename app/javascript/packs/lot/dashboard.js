@@ -11,6 +11,7 @@ import ArtistDashboardSelectors from '../artist/selectors';
 import LotDashboardSelectors from './selectors';
 import { renderBreadcrumb } from '../nav/nav';
 import * as d3 from 'd3';
+import { baseDataApiURI } from '../env'
 
 class Dashboard {
 
@@ -57,7 +58,7 @@ class Dashboard {
 
   render(lotId){
     window.history.pushState("", "", `/lot/${lotId}`);
-    d3.json(`http://localhost:3000/lots/${lotId}`).then((data) => {
+    d3.json(`${baseDataApiURI}/lots/${lotId}`).then((data) => {
       window.localStorage.setItem('lotName', data.lot.title2);
       window.localStorage.setItem('lotId', lotId);
       renderBreadcrumb()

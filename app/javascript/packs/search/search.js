@@ -3,7 +3,16 @@ import ArtistDashboard from '../artist/dashboard'
 import ArtistDashboardUI from '../artist/selectors'
 import LotDashboardSelectors from '../lot/selectors'
 import { renderBreadcrumb } from '../nav/nav'
-const backgroundImages = ['/dejeuner-sur-herbe.jpg', '/guernica.jpeg', '/nuit-etoile.jpg', '/le-cri.png', '/naissance-de-venus.jpg', '/les-menines.jpg']
+import { baseDataApiURI } from '../env'
+
+const backgroundImages = [
+  '/dejeuner-sur-herbe.jpg',
+  '/guernica.jpeg',
+  '/nuit-etoile.jpg',
+  '/le-cri.png',
+  '/naissance-de-venus.jpg',
+  '/les-menines.jpg'
+]
 
 const classList = {
   '1': ['extra-large'],
@@ -96,7 +105,7 @@ class SearchResults{
 
   filterByArtist(filter){
     this.removeChildNodes();
-    fetch(`http://localhost:3000/artists?filter=${filter}`)
+    fetch(`${baseDataApiURI}/artists?filter=${filter}`)
       .then((response) => {
         response.json().then(artists => this.displayArtists(artists));
       })
