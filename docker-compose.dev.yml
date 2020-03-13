@@ -11,12 +11,12 @@ services:
       - RAILS_ENV=docker_development
       - SECRET_KEY_BASE=docker_development_secret
   app:
-    image: davidgeismar/artifacts-app:latest
+    build: .
     command: 'rails server -p 4000'
     ports:
       - "4000:4000"
     volumes:
-      - .:/artifacts
+      - ./log/production.log:/artifacts_data_api/log/production.log
     environment:
       - RAILS_ENV=docker_development
       - SECRET_KEY_BASE=docker_development_secret
