@@ -1,5 +1,5 @@
 FROM ruby:2.6.3
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client yarn
 RUN mkdir /artifacts
 WORKDIR /artifacts
 COPY Gemfile /artifacts/Gemfile
@@ -8,6 +8,7 @@ RUN gem install bundler
 RUN gem install rails
 RUN bundle install
 COPY . /artifacts
+RUN yarn install
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
