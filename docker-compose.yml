@@ -1,7 +1,6 @@
 version: '3'
 services:
   data_api:
-    restart: always
     image: davidgeismar/artifacts_data_api:latest
     command: 'rails server -b 0.0.0.0'
     ports:
@@ -12,7 +11,6 @@ services:
       - RAILS_ENV=docker_development
       - SECRET_KEY_BASE=docker_development_secret
   app:
-    restart: always
     image: davidgeismar/artifacts-app:latest
     command: 'rails server -p 4000'
     ports:
