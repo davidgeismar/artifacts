@@ -90,6 +90,6 @@ production:
   username: <%= ENV["DB_USERNAME"] %>
   host: <%= ENV["DB_URL"] %>
   password: <%= ENV["DB_PASSWORD"] %>
-  database: <%= ENV["DB_NAME"] %>
   port: 5432
   pool: 20
+  # database: <%= ENV["DB_NAME"] %>
