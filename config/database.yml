@@ -87,9 +87,9 @@ production:
   encoding: unicode
   database: artifacts_production
   encoding: unicode
-  username: <%= ENV["DATABASE_USERNAME"] %>
+  username: <%= ENV["DB_USERNAME"] %>
   host: <%= ENV["DB_URL"] %>
-  password: <%= ENV["DATABASE_PASSWORD"] %>
-  database: <%= ENV["DATABASE_NAME"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
+  database: <%= ENV["DB_NAME"] %>
   port: 5432
   pool: 20
