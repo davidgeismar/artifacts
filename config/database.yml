@@ -58,6 +58,7 @@ development:
 docker_development:
   <<: *default
   database: artifacts_development
+  host: host.docker.internal
 
 test:
   <<: *default
