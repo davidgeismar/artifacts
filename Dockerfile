@@ -17,6 +17,7 @@ COPY . .
 RUN gem install bundler
 RUN gem install rails
 RUN bundle install
+RUN yarn install
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
