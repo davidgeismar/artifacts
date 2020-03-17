@@ -19,6 +19,7 @@ RUN gem install bundler
 RUN gem install rails
 RUN bundle install
 RUN yarn install
+RUN RAILS_ENV=production RACK_ENV=production NODE_ENV=production rake assets:precompile
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
