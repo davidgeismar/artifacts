@@ -1,0 +1,32 @@
+version: '3'
+services:
+  data_api:
+    image: davidgeismar/artifacts_data_api:latest
+    command: 'rails server'
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./log/production.log:/artifacts_data_api/log/production.log
+    environment:
+      - RAILS_ENV=production
+      - SECRET_KEY_BASE=production_secret
+      - DB_PASSWORD=0FxpAtQ3qnspyG8CXTdN
+      - DB_USERNAME=postgres
+      - DB_URL=database-1.cavouzs9axwu.eu-west-2.rds.amazonaws.com
+      - DB_PORT=5432
+      - DB_NAME=database-1
+  app:
+    image: davidgeismar/artifacts-app:latest
+    command: 'rails server -p 4000'
+    ports:
+      - "80:4000"
+    volumes:
+      - ./log/production.log:/artifacts_data_api/log/production.log
+    environment:
+      - RAILS_ENV=production
+      - SECRET_KEY_BASE=production_secret
+      - DB_PASSWORD=0FxpAtQ3qnspyG8CXTdN
+      - DB_USERNAME=postgres
+      - DB_URL=database-1.cavouzs9axwu.eu-west-2.rds.amazonaws.com
+      - DB_PORT=5432
+      - DB_NAME=database-1

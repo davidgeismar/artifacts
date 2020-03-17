@@ -1,6 +1,7 @@
 FROM ruby:2.6.3
 RUN apt-get update -qq && apt-get install -y \
 curl \
+vim \
 build-essential \
 libpq-dev &&\
 curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
