@@ -26,4 +26,4 @@ COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 RUN set -e
 # Remove a potentially pre-existing server.pid for Rails.
-RUN rm -f /artifacts/tmp/pids/server.pid
+RUN rm -f ./tmp/pids/server.pid
