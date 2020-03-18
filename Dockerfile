@@ -20,10 +20,9 @@ RUN gem install rails
 RUN bundle install
 RUN yarn install
 RUN RAILS_ENV=production RACK_ENV=production NODE_ENV=production bundle exec rake assets:precompile
-
-# Add a script to be executed every time the container starts.
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-RUN set -e
-# Remove a potentially pre-existing server.pid for Rails.
 RUN rm -f ./tmp/pids/server.pid
+# Add a script to be executed every time the container starts.
+# COPY entrypoint.sh /usr/bin/
+# RUN chmod +x /usr/bin/entrypoint.sh
+# RUN set -e
+# Remove a potentially pre-existing server.pid for Rails.

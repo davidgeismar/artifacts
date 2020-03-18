@@ -6,7 +6,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./log/production.log:/artifacts_data_api/log/production.log
+      - ./log:/artifacts_data_api/log
     environment:
       - RAILS_ENV=production
       - SECRET_KEY_BASE=production_secret
