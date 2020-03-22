@@ -5,6 +5,7 @@ const ui = new Selectors()
 
 const renderArtistSpan = (artistName, artistId) => ((artistName  && artistId) ? `<span data-id=${artistId} id='artist-name' class='breadbrumb-element'>${artistName}</span>` : `<span id='artist-name'></span>`)
 export const renderBreadcrumb = () => {
+  ui.navbar.classList.remove('hide');
   const artistName = localStorage.getItem("artistName");
   const artistId = localStorage.getItem("artistId");
   const lotName = localStorage.getItem("lotName");

@@ -94,6 +94,7 @@
     padding: 20px;
   }
   .description {
+    max-height: 500px;
     overflow: scroll;
     grid-column: 4 / 6;
     grid-row: 1/ 3;
