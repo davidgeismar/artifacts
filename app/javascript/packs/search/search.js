@@ -1,4 +1,5 @@
 import SearchUI from './selectors'
+import SharedUI from '../shared/ui'
 import ArtistDashboard from '../artist/dashboard'
 import ArtistDashboardUI from '../artist/selectors'
 import LotDashboardSelectors from '../lot/selectors'
@@ -70,6 +71,7 @@ class SearchBar {
 class SearchResults{
   constructor(){
     this.ui = new SearchUI();
+    this.sharedUI = new SharedUI();
   }
 
   removeChildNodes(){
@@ -77,6 +79,7 @@ class SearchResults{
   }
 
   handleClicked(elem, artist){
+    this.sharedUI.loader.classList.remove('hide')
     this.removeChildNodes(this.ui.searchResults);
     this.ui.searchInput.value = elem.text;
     this.ui.searchBar.classList.add('hide')

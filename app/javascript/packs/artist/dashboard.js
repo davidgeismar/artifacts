@@ -37,29 +37,35 @@ class Dashboard {
       this.artistUI.dashboard.classList.add('grid');
     }
   }
+
+  updateDashboard(salesNumber, performance, totalSalesAmount,artistName, data){
+    this.artistUI.salesCountEl.innerHTML = salesCountTemplate(salesNumber);
+    this.artistUI.liquidityRateEl.innerHTML = liquidityRateTemplate(15);
+    this.artistUI.performanceRateEl.innerHTML = performanceRateTemplate(performance);
+    this.artistUI.artistScoreEl.innerHTML = artistScoreTemplate(5);
+    this.artistUI.totalSalesEl.innerHTML = totalSaleAmountTemplate(totalSalesAmount);
+    this.artistUI.artistDescription.innerHTML = artistDescriptionTemplate(artistName);
+    this.artistUI.scatterplot.innerHTML = "";
+    renderScatterPlot(data.grouped_by_sale_date, data.max);
+  }
+  
   render(){
     window.history.pushState("", "", `/artists/${this.artistId}`);
     if (this.artistUI.dashboard.classList.contains('hide')){
-
       d3.json(`${baseDataApiURI}/data/artist/${this.artistId}`)
         .then((data) => {
-        const { salesNumber, totalSalesAmount, artistName } = data;
+        const { salesNumber, totalSalesAmount, artistName, performance } = data;
         window.localStorage.setItem('artistName', artistName);
         window.localStorage.setItem('artistId', this.artistId);
         window.localStorage.removeItem('lotName');
         window.localStorage.removeItem('lotId');
         renderBreadcrumb()
         this.toggleLotArtist()
-        this.sharedUI.loader.dispatchEvent(new Event('hide-loader'));
-        this.artistUI.salesCountEl.innerHTML = salesCountTemplate(salesNumber);
-        this.artistUI.liquidityRateEl.innerHTML = liquidityRateTemplate(15);
-        this.artistUI.performanceRateEl.innerHTML = performanceRateTemplate(35);
-        this.artistUI.artistScoreEl.innerHTML = artistScoreTemplate(5);
-        this.artistUI.totalSalesEl.innerHTML = totalSaleAmountTemplate(totalSalesAmount);
-        this.artistUI.artistDescription.innerHTML = artistDescriptionTemplate(artistName);
-        this.artistUI.scatterplot.innerHTML = "";
-        renderScatterPlot(data.grouped_by_sale_date, data.max);
+        this.updateDashboard(salesNumber, performance, totalSalesAmount,artistName, data)
       })
+      if (!this.sharedUI.loader.classList.contains('hide')){
+        this.sharedUI.loader.classList.add('hide')
+      }
     }
   }
 }
