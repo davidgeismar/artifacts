@@ -5,7 +5,8 @@ export const renderScatterPlot = (data, max) => {
   let saleDates = Object.keys(data);
 
   const margin = {top: 20, right: 20, bottom: 20, left: 60};
-  const width = window.innerWidth*60/100 - 20;
+  let windowWidth = window.innerWidth
+  const width = windowWidth < 640 ? windowWidth - 20 : windowWidth*60/100 - 20;
   const height = window.innerHeight*2/3 - 20;
   var svg = d3.select("#scatterPlot")
               .append('svg')

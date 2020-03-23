@@ -6,7 +6,8 @@ export const renderLotPlot = (data) => {
   const yMax = Math.max(data.map(lot => Math.max(lot.primaryPrice, lot.high_estimate, lot.low_estimate)));
   const saleDates = data.map(lot => lot.saleDate);
   const margin = {top: 20, right: 20, bottom: 20, left: 60};
-  const width = window.innerWidth*60/100 - 20;
+  let windowWidth = window.innerWidth
+  const width = windowWidth < 640 ? windowWidth - 20 : windowWidth*60/100 - 20;
   const height = window.innerHeight*2/3 - 20;
 
   var svg = d3.select("#lotPlot")
@@ -29,7 +30,7 @@ export const renderLotPlot = (data) => {
   var yScale = d3.scaleLinear()
       .range([innerHeight, 0])
       .domain([0, yMax]);
-      
+
   var xAxis = d3.axisBottom(xScale);
   var yAxis = d3.axisLeft(yScale);
   var gX = svg.append("g")
