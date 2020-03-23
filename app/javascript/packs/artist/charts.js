@@ -1,11 +1,12 @@
 import LotDashboard from '../lot/dashboard';
 import * as d3 from 'd3';
+
 export const renderScatterPlot = (data, max) => {
   let saleDates = Object.keys(data);
 
   const margin = {top: 20, right: 20, bottom: 20, left: 60};
-  const width = window.innerWidth*60/100 - 40;
-  const height = window.innerHeight*2/3 - 40;
+  const width = window.innerWidth*60/100 - 20;
+  const height = window.innerHeight*2/3 - 20;
   var svg = d3.select("#scatterPlot")
               .append('svg')
               .attr("preserveAspectRatio", "xMinYMin meet")

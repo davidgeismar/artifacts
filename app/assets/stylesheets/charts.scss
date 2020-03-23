@@ -86,15 +86,12 @@
     }
   }
 
-  #lotPlot {
-    grid-column: 1/4;
-    height: 500px;
-  }
   #artist-description {
     padding: 20px;
   }
   .description {
-    max-height: 500px;
+    // should be 66.6vh - 20px
+    max-height: 65vh;
     overflow: scroll;
     grid-column: 4 / 6;
     grid-row: 1/ 3;

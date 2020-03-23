@@ -6,18 +6,19 @@ export const renderLotPlot = (data) => {
   const yMax = Math.max(data.map(lot => Math.max(lot.primaryPrice, lot.high_estimate, lot.low_estimate)));
   const saleDates = data.map(lot => lot.saleDate);
   const margin = {top: 20, right: 20, bottom: 20, left: 60};
+  const width = window.innerWidth*60/100 - 20;
+  const height = window.innerHeight*2/3 - 20;
 
   var svg = d3.select("#lotPlot")
               .append('svg')
               .attr("preserveAspectRatio", "xMinYMin meet")
-              .attr("viewBox", "0 0 960 500")
+              .attr('width', width)
+              .attr('height', height)
+              .attr("viewBox", `0 0 ${width} ${height}`)
               .append("g")
               .attr("transform", `translate(${margin.left},${margin.top})`);
 
-
-  const width = window.innerWidth*80/100 - 20;
-  const height = 500;
-  const innerWidth = width - margin.left -margin.right;
+  const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
   let xScale = d3.scaleBand()
@@ -28,6 +29,7 @@ export const renderLotPlot = (data) => {
   var yScale = d3.scaleLinear()
       .range([innerHeight, 0])
       .domain([0, yMax]);
+      
   var xAxis = d3.axisBottom(xScale);
   var yAxis = d3.axisLeft(yScale);
   var gX = svg.append("g")
