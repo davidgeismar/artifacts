@@ -95,6 +95,7 @@ class SearchResults{
   }
 
   displayArtists(artists){
+    this.removeChildNodes();
     const artistSubset = artists.slice(0, 6)
     console.log(artistSubset);
     artistSubset.forEach((artist, index) => {
@@ -104,7 +105,6 @@ class SearchResults{
   }
 
   filterByArtist(filter){
-    this.removeChildNodes();
     fetch(`${baseDataApiURI}/artists?filter=${filter}`)
       .then((response) => {
         response.json().then(artists => this.displayArtists(artists));
